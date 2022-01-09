@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { stockData } from '../../data'
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -22,15 +21,24 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import { characterestics, skills } from './config';
-import { getDataFromProperty, getStringFormatDataFromProperty, socialProfile } from '../shared/methods';
+import { characterestics, skills, socialProfile } from './config';
+import { getDataFromProperty, getStringFormatDataFromProperty } from '../shared/methods';
 
 
 
 export const Stocks = () => {
   const title1 = "Personal & Location Details";
   const [expanded, setExpanded] = React.useState(false);
+  const [stockData, setStockData] = React.useState([]);
   const theme = useTheme();
+
+  React.useEffect(() => {
+    fetch('http://localhost:3000/getProfile')
+      .then(res => res.json())
+      .then(res => {
+        setStockData(res);
+      })
+  }, []);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -47,7 +55,7 @@ export const Stocks = () => {
       <div className="stock-container">
         {stockData.map((data, key) => {
           return (
-            <div>
+            <div key={'stockdata_' + key}>
               <Card sx={{ display: 'flex' }}>
                 <CardMedia
                   component="img"
@@ -235,7 +243,7 @@ export const Stocks = () => {
                           {socialProfile.map((profile, i) => (
                             <TableRow key={'profile_' + i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                               <TableCell align="left">{profile.label}</TableCell>
-                              <TableCell align="right">{getStringFormatDataFromProperty(profile.property)}</TableCell>
+                              <TableCell align="right">{getStringFormatDataFromProperty(data, profile.property)}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>

@@ -6,10 +6,10 @@ const parseData = (data, keys, i) => {
 }
 
 export const getDataFromProperty = (data, key) => {
-  return data ? parseData(data, key.split('.'), 0) : [];
+  return data ? parseData(data, (key || '').split('.'), 0) : [];
 }
 
 export const getStringFormatDataFromProperty = (data, key) => {
   const result = getDataFromProperty(data, key);
-  return typeof result === 'string' ? result : result.join(', ');
+  return result ? (typeof result === 'string' ? result : result.join(', ')) : '';
 }

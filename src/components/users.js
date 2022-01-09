@@ -6,7 +6,7 @@ import { forwardRef } from 'react';
 import { Box, Grid, Container, Typography } from '@mui/material';
 import Page from './Page';
 import AppTasks from './AppTasks';
-import { Stocks } from "./Stocks";
+import { Stocks } from "./Stocks/Stocks";
 
  
 // ----------------------------------------------------------------------
